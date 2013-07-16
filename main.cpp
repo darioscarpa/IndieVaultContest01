@@ -43,10 +43,8 @@ void addMove(Node *n, const char *keyseq, const char *moveStr, int len) {
 		return;
 	}
 	char c = *keyseq;
-	//cout << "move " << moveStr <<  " char: "<< c << endl;
 	Node *next = n->outEdges[keyMap[c]];
 	if (next == nullptr) { // new node needed
-		//cout << "new node for " << moveStr <<  " char: "<< c << endl;
 		next = n->outEdges[keyMap[c]] = new Node();
 	}
 	keyseq++;
@@ -61,9 +59,9 @@ int main(int argc, char* argv[]) {
 	fstream fin("input.txt",   ios::in  | ios::binary);
 
 	fin.seekg (0, fin.end);
-    unsigned int length = fin.tellg();
-    fin.seekg (0, fin.beg);
-	char * fbuffer = new char [length+1];
+	unsigned int length = fin.tellg();
+	fin.seekg (0, fin.beg);
+	char *fbuffer = new char [length+1];
 	fin.read (fbuffer, length);
 	fbuffer[length] = '\0';
 
@@ -93,7 +91,6 @@ int main(int argc, char* argv[]) {
 		int len = ptrKeySeq - ptrMoveName + 1;
 		if ( len > maxMoveNameLen ) maxMoveNameLen = len;
 
-		//printf("%s %s\n", ptrMoveName, ptrKeySeq);
 		addMove(&movesGraph, ptrKeySeq, ptrMoveName, len);
 
 		ptrSplit++;		
@@ -117,8 +114,6 @@ int main(int argc, char* argv[]) {
 		if (next == nullptr) { // no edge for currchar, discard it
 			//cout << "no edge for " <<  currChar << endl;
 			outbuf[outbufpos++] = *ptrUnmatched;
-			
-			//ptrUnmatched++;
 			ptrMatched = ++ptrUnmatched;		
 			curr = &movesGraph;				
 		} else { // outgoing edge, go forward
@@ -128,7 +123,6 @@ int main(int argc, char* argv[]) {
 			if (curr->moveName != nullptr) {				
 				memcpy(outbuf + outbufpos,  curr->moveName, curr->moveNameLen);
 				outbufpos += curr->moveNameLen;
-
 				ptrUnmatched = ptrMatched;
 				curr = &movesGraph;
 			}			
